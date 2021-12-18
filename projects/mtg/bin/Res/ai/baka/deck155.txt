@@ -66,7 +66,6 @@ Quag Vampires (*) * 1
 Ruthless Cullblade (*) * 1
 Sacred Foundry (*) * 1
 Sanctum Seeker (*) * 1
-Sanguine Bond (*) * 1 
 Scoured Barrens (*) * 1
 Scrubland (*) * 1
 Shadow Alley Denizen (*) * 1
