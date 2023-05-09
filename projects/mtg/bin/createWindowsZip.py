@@ -26,15 +26,17 @@ def getFilename(filename):
     return filename
 
 def createStandardResFile():
+    #print("Creating Resource File")
     print "Creating Resource File"
     cmd = 'python createResourceZip.py -n ' + getFilename('core') + '.zip'
     os.chdir("Res")
     os.system(cmd)
     os.chdir("..")
+    #print("Creating Windows Package File")
     print "Creating Windows Package File"
     filename = 'Wagic-windows.zip'
     createWindowsZipFile( filename )
-    print >> sys.stderr, 'Created Windows Package: {0}'.format( filename)
+    #print(sys.stderr, 'Created Windows Package: {0}'.format( filename))
 
 class ZipUtilities:
 
