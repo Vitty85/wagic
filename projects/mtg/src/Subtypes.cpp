@@ -19,14 +19,14 @@ Subtypes::Subtypes()
     find("Equipment");
     find("Aura");
     find("Planeswalker");
-    find("Tribal");
+    find("Kindred");
     find("Plane");
     find("Scheme");
     find("Vanguard");
     find("Dungeon");
     find("Emblem");
     find("Conspiracy");
-    find("Backgorund");
+    find("Background");
     find("Battle");
 }
 
@@ -96,7 +96,7 @@ bool Subtypes::isType(unsigned int type)
         type == TYPE_LAND  ||
         type == TYPE_ARTIFACT ||
         type == TYPE_PLANESWALKER  ||
-        type == TYPE_TRIBAL ||
+        type == TYPE_KINDRED ||
         type == TYPE_PLANE ||
         type == TYPE_SCHEME ||
         type == TYPE_VANGUARD ||

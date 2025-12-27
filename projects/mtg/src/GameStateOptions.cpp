@@ -25,7 +25,7 @@ GameStateOptions::GameStateOptions(GameApp* parent) :
 
 GameStateOptions::~GameStateOptions()
 {
-    kBgFile = ""; //Reset the chosen backgorund.
+    kBgFile = ""; //Reset the chosen background.
 }
 
 void GameStateOptions::Start()
@@ -55,6 +55,8 @@ void GameStateOptions::Start()
    // optionsList->Add(NEW OptionInteger(Options::INTERRUPTMYABILITIES, "Interrupt my abilities"));
     //this is a dev option, not meant for standard play. uncomment if you need to see abilities you own hitting the stack.
     optionsList->Add(NEW OptionInteger(Options::INTERRUPT_SECONDMAIN, "Interrupt opponent's end of turn"));
+    optionsList->Add(NEW WGuiButton(NEW WGuiHeader("Back to Main Menu"), -102, GameStateOptionsConst::kBackToMainMenuID, this));
+    optionsList->Add(NEW WGuiButton(NEW WGuiHeader("Save And Exit"), -102, GameStateOptionsConst::kSaveAndBackToMainMenuID, this));
     optionsTabs = NEW WGuiTabMenu();
     optionsTabs->Add(optionsList);
 
@@ -159,7 +161,7 @@ void GameStateOptions::End()
     JRenderer::GetInstance()->EnableVSync(false);
     SAFE_DELETE(optionsTabs);
     SAFE_DELETE(optionsMenu);
-    kBgFile = ""; //Reset the chosen backgorund.
+    kBgFile = ""; //Reset the chosen background.
 }
 
 void GameStateOptions::Update(float dt)
@@ -280,7 +282,7 @@ void GameStateOptions::Render()
     const char * const CreditsText[] = {
         "Wagic, The Homebrew?! by Wololo",
         "",
-        "Updates, new cards, and more on http://wololo.net/wagic",
+        "Updates, new cards, and more on the Wagic Discord",
         "Many thanks to the people who help this project",
         "",
         "",
@@ -318,7 +320,7 @@ void GameStateOptions::Render()
         "",
         "This work is not related to or endorsed by Wizards of the Coast, Inc",
         "",
-        "Please support this project with donations at http://wololo.net/wagic",
+        "Please support this project with donations at  Wagic Discord",
     };
 
     WFont * mFont = WResourceManager::Instance()->GetWFont(Fonts::MAGIC_FONT);

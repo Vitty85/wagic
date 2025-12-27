@@ -347,12 +347,17 @@ void MTGCardInstance::initMTGCI()
     data = this; //an MTGCardInstance point to itself for data, allows to update it without killing the underlying database item
 
     if (observer && basicAbilities[(int)Constants::CHANGELING])
-    {//if the card is a changeling, it gains all creature subtypes
+    {
+        //if the card is a changeling, it gains all creature subtypes except "Equipment"
         vector<string> values = MTGAllCards::getCreatureValuesById();
         for (size_t i = 0; i < values.size(); ++i)
         {
-            //Don' want to send any event to the gameObserver inside of initMCGI, so calling the parent setSubtype method instead of mine
-            CardPrimitive::setSubtype(values[i].c_str());
+            const string& subtype = values[i];
+            if (subtype == "Clue" || subtype == "Equipment" || subtype == "Food" || subtype == "Treasure")
+                continue;
+
+            // Don't send any event to the gameObserver inside of initMCGI, so calling the parent setSubtype method instead
+            CardPrimitive::setSubtype(subtype.c_str());
         }
     }
 
@@ -1070,6 +1075,9 @@ bool MTGCardInstance::canPlayFromLibrary()
     if(hasSubtype(Subtypes::TYPE_ARTIFACT) && (has(Constants::CANPLAYARTIFACTTOPLIBRARY)
         || (controller()->game->inPlay->nb_cards && controller()->game->inPlay->hasAbility(Constants::CANPLAYARTIFACTTOPLIBRARY))))
         found++;
+    if(hasSubtype(Subtypes::TYPE_ENCHANTMENT) && (has(Constants::CANPLAYENCHANTMENTTOPLIBRARY)
+        || (controller()->game->inPlay->nb_cards && controller()->game->inPlay->hasAbility(Constants::CANPLAYENCHANTMENTTOPLIBRARY))))
+        found++;
     if(isCreature() && (has(Constants::CANPLAYCREATURETOPLIBRARY)
         || (controller()->game->inPlay->nb_cards && controller()->game->inPlay->hasAbility(Constants::CANPLAYCREATURETOPLIBRARY))))
         found++;
@@ -1144,8 +1152,8 @@ int MTGCardInstance::canBlock(MTGCardInstance * opponent)
         return 0;
     if (opponent->basicAbilities[(int)Constants::FEAR] && !(this->hasType(Subtypes::TYPE_ARTIFACT) || this->hasColor(Constants::MTG_COLOR_BLACK)))
         return 0;
-    if (opponent->controller()->game->battlefield->hasAbility(Constants::LURE) && !opponent->has(Constants::LURE))
-        return 0;
+    //if (opponent->controller()->game->battlefield->hasAbility(Constants::LURE) && !opponent->has(Constants::LURE))
+        //return 0; Doesn't consider if the lure creature is attacking
     //intimidate
     if (opponent->basicAbilities[(int)Constants::INTIMIDATE] && !(this->hasType(Subtypes::TYPE_ARTIFACT)))
     {
@@ -1337,6 +1345,7 @@ ManaCost * MTGCardInstance::computeNewCost(MTGCardInstance * card,ManaCost * Cos
         card->has(Constants::AFFINITYCONTROLLERCREATURES) ||
         card->has(Constants::AFFINITYOPPONENTCREATURES) ||
         card->has(Constants::AFFINITYALLDEADCREATURES) ||
+        card->has(Constants::AFFINITYTWOALLDEADCREATURES) ||
         card->has(Constants::AFFINITYPARTY) ||
         card->has(Constants::AFFINITYBASICLANDTYPES) ||
         card->has(Constants::AFFINITYTWOBASICLANDTYPES) ||
@@ -1378,7 +1387,7 @@ ManaCost * MTGCardInstance::computeNewCost(MTGCardInstance * card,ManaCost * Cos
             color = 1;
             type = "creature";
         }
-        else if (card->has(Constants::AFFINITYALLCREATURES) || card->has(Constants::AFFINITYCONTROLLERCREATURES) || card->has(Constants::AFFINITYOPPONENTCREATURES) || card->has(Constants::AFFINITYALLDEADCREATURES))
+        else if (card->has(Constants::AFFINITYALLCREATURES) || card->has(Constants::AFFINITYCONTROLLERCREATURES) || card->has(Constants::AFFINITYOPPONENTCREATURES) || card->has(Constants::AFFINITYALLDEADCREATURES) || card->has(Constants::AFFINITYTWOALLDEADCREATURES))
         {
             type = "creature";
         }
@@ -1451,6 +1460,13 @@ ManaCost * MTGCardInstance::computeNewCost(MTGCardInstance * card,ManaCost * Cos
             WParsedInt* value = NEW WParsedInt("bothalldeadcreature", NULL, card);
             if(value)
                 reduce = value->getValue();
+            SAFE_DELETE(value);
+        }
+        else if (card->has(Constants::AFFINITYTWOALLDEADCREATURES))
+        {
+            WParsedInt* value = NEW WParsedInt("bothalldeadcreature", NULL, card);
+            if(value)
+                reduce = value->getValue() * 2;
             SAFE_DELETE(value);
         }
         else if (card->has(Constants::AFFINITYPARTY))

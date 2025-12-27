@@ -605,7 +605,7 @@ int AbilityFactory::parseCastRestrictions(MTGCardInstance * card, Player * playe
                 if (grave->hasType("artifact")) checkTypesAmount++;
                 if (grave->hasType("planeswalker")) checkTypesAmount++;
                 if (grave->hasType("battle")) checkTypesAmount++;
-                if (grave->hasType("tribal")) checkTypesAmount++;
+                if (grave->hasType("kindred")) checkTypesAmount++;
                 if (checkTypesAmount < 4)
                 return 0;
         }
@@ -625,7 +625,7 @@ int AbilityFactory::parseCastRestrictions(MTGCardInstance * card, Player * playe
                 if (grave->hasType("artifact")) checkTypesAmount++;
                 if (grave->hasType("planeswalker")) checkTypesAmount++;
                 if (grave->hasType("battle")) checkTypesAmount++;
-                if (grave->hasType("tribal")) checkTypesAmount++;
+                if (grave->hasType("kindred")) checkTypesAmount++;
                 if (checkTypesAmount > 3)
                 return 0;
         }
@@ -1346,7 +1346,7 @@ TriggeredAbility * AbilityFactory::parseTrigger(string s, string, int id, Spell 
         return NEW TrCardExerted(observer, id, card, tc, once, limitOnceATurn);
 
 //CombatTrigger
-    //Card card attacked and is blocked
+    //Card attacked and is blocked
     found = s.find("combat(");
     if (found != string::npos)
     {
@@ -2104,7 +2104,7 @@ MTGAbility * AbilityFactory::parseMagicLine(string s, int id, Spell * spell, MTG
         observer->addObserver(NEW MTGTempFlashBackRule(observer, -1));
         return NULL;
     }
-    //alternative cost type flashback
+    //alternative cost type bestow
     found = s.find("bestowrule");
     if (found != string::npos)
     {

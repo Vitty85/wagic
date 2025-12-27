@@ -72,7 +72,7 @@ const char* Constants::MTGBasicAbilities[] = {
     "mustattack",
     "cantblock",
     "doesnotuntap",
-    "opponentshroud",
+    "hexproof",
     "indestructible",
     "intimidate",
     "deathtouch",
@@ -245,14 +245,14 @@ const char* Constants::MTGBasicAbilities[] = {
     "countershroud", //Card can't get any kind of counter (e.g. "Solemnity").
     "nonight", //It can't become night (e.g. "Angel of Eternal Dawn").
     "nodamageremoved", //Damage is not removed from card (e.g. "Patient Zero").
-    "backgroundpartner", //Can choose a backgorund partner as commander (e.g. "Faceless One").
+    "backgroundpartner", //Can choose a background partner as commander (e.g. "Faceless One").
     "bottomlibrarydeath", //It goes to bottom of library after death (e.g. "Quintorius, Loremaster").
     "noloyaltydamage", //Damage does not cause loyalty counter to be removed from a Planeswalker (e.g. "Spark Rupture").
     "nodefensedamage", //Damage does not cause defense counter to be removed from a Battle.
     "affinityallcreatures", //Cost 1 less for each creature in all battlefields.
     "affinitycontrollercreatures", //Cost 1 less for each creature in controller battlefield.
     "affinityopponentcreatures", //Cost 1 less for each creature in opponent battlefield.
-    "affinityalldeadcreatures", //Cost 1 less for each died creature in this turn.
+    "affinityalldeadcreatures", //Costs {1} less to cast for each creature that died this turn
     "affinityparty", //Cost 1 less for each creature in your party.
     "affinityenchantments", //Cost 1 less for each enchantment in your battlefield.
     "affinitybasiclandtypes", //Cost 1 less for each basic land type in your battlefield.
@@ -267,7 +267,9 @@ const char* Constants::MTGBasicAbilities[] = {
     "poisonninetoxic", // Card has toxic 9
     "poisontentoxic", // Card has toxic 10
     "eqpasinst", // Can equip as instant
-    "canloyaltyasinst" // Can activate loyalty abilities as instant (e.g. "The Wandering Emperor").
+    "canloyaltyasinst", // Can activate loyalty abilities as instant (e.g. "The Wandering Emperor").
+    "canplayenchantmentlibrarytop", // May play enchantments from top
+	"affinitytwoalldeadcreatures" // Costs {2} less to cast for each creature that died this turn
 };
 
 map<string,int> Constants::MTGBasicAbilitiesMap;

@@ -165,7 +165,7 @@ Credits::~Credits()
         if (bonus[i])
             delete bonus[i];
     bonus.clear();
-    kBgFile = ""; //Reset the chosen backgorund.
+    kBgFile = ""; //Reset the chosen background.
 }
 
 void Credits::compute(GameObserver* g, GameApp * _app)
@@ -210,6 +210,24 @@ void Credits::compute(GameObserver* g, GameApp * _app)
         if (diff)
         {
             CreditBonus * b = NEW CreditBonus(diff, _("Life Delta Bonus"));
+            bonus.push_back(b);
+        }
+
+        if (p1->game->hand->nb_cards == 0)
+        {
+            CreditBonus * b = NEW CreditBonus(100, _("'Limited Resources' Bonus"));
+            bonus.push_back(b);
+        }
+        
+        if (p1->game->hand->nb_cards > 7)
+        {
+            CreditBonus * b = NEW CreditBonus(150, _("'Arcane Encyclopedia' Bonus"));
+            bonus.push_back(b);
+        }
+
+        if (p1->game->hand->nb_cards == 7)
+        {
+            CreditBonus * b = NEW CreditBonus(77, _("'Library of Alexandria' Bonus"));
             bonus.push_back(b);
         }
 
@@ -377,6 +395,11 @@ void Credits::computeTournament(GameObserver* g, GameApp * _app,bool tournament,
         if (options[Options::DIFFICULTY_MODE_UNLOCKED].number && difficulty)
         {
             CreditBonus * b = NEW CreditBonus(100 * mGamesWon * difficulty, _("Difficulty Bonus"));
+            bonus.push_back(b);
+        }
+        if (mGamesWon==0)
+        {
+            CreditBonus * b = NEW CreditBonus(100, _("Game Bonus"));
             bonus.push_back(b);
         }
         if (mGamesWon>1)
@@ -662,7 +685,7 @@ void Credits::Render()
     {
         f2->DrawString(_("There's more!").c_str(), 10, y + 15);
         f->DrawString(_("Mods, additional cards, updates and more at:").c_str(), 10, y + 30);
-        f2->DrawString("-> http://wololo.net/wagic", 10, y + 42);
+        f2->DrawString("Discord and GitHub: Wagic game", 10, y + 42);
     }
 
 }
